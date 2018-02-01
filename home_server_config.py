@@ -5,7 +5,7 @@ import os
 import distutils.util
 
 db_type = os.getenv('DATABASE', 'sqlite')
-postgres_host = os.getenv('POSTGRES_HOST', 'localhost')
+postgres_host = os.getenv('POSTGRES_HOST', 'db')
 postgres_port = os.getenv('POSTGRES_PORT', 5432)
 db_name = os.getenv('DB_NAME', 'synapse')
 db_user = os.getenv('DB_USER', 'postgres')
@@ -13,6 +13,12 @@ db_pasword = os.getenv('DB_PASSWORD', '')
 email_from = os.getenv('EMAIL_FROM', 'Riot EEA <eea@eea.com>')
 riot_base_url =  os.getenv('RIOT_BASE_URL', '')
 public_base_url =  os.getenv('PUBLIC_BASE_URL', '')
+identity_url = os.getenv('IDENTITY_URL', 'http://identity:8090')
+smtp_host = os.getenv('SMTP_HOST', 'postfix')
+smtp_port = os.getenv('SMTP_PORT', '25')
+
+
+
 
 enable_registration = bool(distutils.util.strtobool(os.getenv('REGISTRATION_ENABLED', 'no')))
 
@@ -49,9 +55,9 @@ if db_type == 'sqlite':
 elif db_type == 'postgresql':
     yaml_doc['database'] = {'name': 'psycopg2', 'args': {'user': db_user, 'password': db_pasword, 'database': db_name, 'host': postgres_host, 'cp_min': 5, 'cp_max': 10}}
 
-yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': 'postfix', 'smtp_port': '25', 'notif_from': email_from, 'app_name': 'Matrix', 'template_dir': '/synapse_templates', 'notif_template_html': 'notif_mail.html', 'notif_template_text': 'notif_mail.txt', 'notif_for_new_users': 'True', 'riot_base_url': riot_base_url}
+yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': smtp_host, 'smtp_port': smtp_port, 'notif_from': email_from, 'app_name': 'Matrix', 'template_dir': '/synapse_templates', 'notif_template_html': 'notif_mail.html', 'notif_template_text': 'notif_mail.txt', 'notif_for_new_users': 'True', 'riot_base_url': riot_base_url}
 
-yaml_doc['password_providers'] = [{ 'module': 'rest_auth_provider.RestAuthProvider', 'config': { 'endpoint': 'http://identity:8090'} } ]
+yaml_doc['password_providers'] = [{ 'module': 'rest_auth_provider.RestAuthProvider', 'config': { 'endpoint': identity_url} } ]
 yaml_doc['public_baseurl'] = public_base_url
 
 
