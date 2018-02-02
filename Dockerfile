@@ -4,11 +4,6 @@ LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r synapse && useradd -r -g synapse synapse
 
-# add supervisor configs
-COPY config/supervisord-matrix.conf /conf/
-COPY config/supervisord-turnserver.conf /conf/
-COPY config/supervisord.conf /
-
 # Git branch to build from
 ARG SYNAPSE_VERSION=v0.26.0
 
@@ -104,8 +99,10 @@ VOLUME /uploads
 
 
 
+# add configs
+COPY config/supervisord-matrix.conf config/supervisord-turnserver.conf  /conf/
 COPY config/index.html config/logo.png /webclient/
-COPY home_server_config.py docker-entrypoint.sh /
+COPY home_server_config.py docker-entrypoint.sh config/supervisord.conf /
 
 EXPOSE 8008 8448 3478
 WORKDIR /data
