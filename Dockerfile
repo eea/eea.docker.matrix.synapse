@@ -1,4 +1,5 @@
 FROM debian:stretch-slim
+LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r synapse && useradd -r -g synapse synapse
