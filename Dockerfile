@@ -18,10 +18,8 @@ RUN set -ex \
     && export DEBIAN_FRONTEND=noninteractive \
     && mkdir -p /var/cache/apt/archives \
     && touch /var/cache/apt/archives/lock \
-    && apt-get clean \
-    && apt-get update -y \
-    && apt-get upgrade -y \
-    && apt-get install -y \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \ 
         bash \
         coreutils \
         coturn \
@@ -53,33 +51,30 @@ RUN set -ex \
         python-dev \
         python-pip \
         python-psycopg2 \
+        python-setuptools \
         python-virtualenv \
         sqlite \
         zlib1g \
         zlib1g-dev \
-    ; \
-    pip install --upgrade pip ;\
-    pip install --upgrade python-ldap ;\
-    pip install --upgrade pyopenssl ;\
-    pip install --upgrade enum34 ;\
-    pip install --upgrade ipaddress ;\
-    pip install --upgrade lxml ;\
-    pip install --upgrade supervisor \
-    ; \
-    git clone --branch $SYNAPSE_VERSION --depth 1 https://github.com/matrix-org/synapse.git \
+    &&  pip install --upgrade pip \
+        python-ldap \
+        pyopenssl \
+        enum34 \
+        ipaddress \
+        lxml \
+        supervisor \
+    && git clone --branch $SYNAPSE_VERSION --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     && pip install --upgrade . \
     && mv res/templates /synapse_templates  \
     && cd / \
     && rm -rf /synapse \
-    ; \
-    git clone https://github.com/maxidor/matrix-synapse-rest-auth.git \
+    && git clone https://github.com/maxidor/matrix-synapse-rest-auth.git \
     && cd matrix-synapse-rest-auth \
     && cp rest_auth_provider.py /usr/lib/python2.7/dist-packages/ \
     && cd .. \
     && rm -rf matrix-synapse-rest-auth \
-    ; \  
-    apt-get autoremove -y \
+    && apt-get autoremove -y \
         file \
         gcc \
         git \
@@ -96,13 +91,7 @@ RUN set -ex \
         make \
         python-dev \
         zlib1g-dev \
-    ; \
-    apt-get autoremove -y ;\
-    rm -rf /var/lib/apt/* /var/cache/apt/*
-
-COPY config/index.html /webclient/
-COPY config/logo.png /webclient/
-COPY home_server_config.py /home_server_config.py
+    && rm -rf /var/lib/apt/* /var/cache/apt/*
 
 RUN mkdir /data \
     && mkdir /uploads \
@@ -112,10 +101,13 @@ RUN mkdir /data \
 VOLUME /data
 VOLUME /uploads
 
-WORKDIR /data
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+
+COPY config/index.html config/logo.png /webclient/
+COPY home_server_config.py docker-entrypoint.sh /
 
 EXPOSE 8008 8448 3478
+WORKDIR /data
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["start"]
