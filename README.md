@@ -1,14 +1,38 @@
-# docker-synapse
+# Docker image for Synapse Matrix.org server
 
-## Run
+Docker image for https://github.com/matrix-org/synapse, including configuration changes used in EEA and adding HTTP JSON REST Authenticator module for synapse (https://github.com/kamax-io/matrix-synapse-rest-auth)
+
+## Supported tags and respective `Dockerfile` links
+
+- [`latest` (*Dockerfile*)](https://github.com/eea/eea.docker.matrix.synapse/blob/master/Dockerfile)
+- [`v0.26.0` (*Dockerfile*)](https://github.com/eea/eea.docker.matrix.synapse/blob/v0.26.0/Dockerfile)
+
+## Variables
+
+1. SERVER_NAME - The public url of matrix, used in federation and under which every user is saved; Is used in Riot and Identity containers
+2. REPORT_STATS - Send data to matrix.org: hostname, synapse version & uptime, total_users, total_nonbridged users, total_room_count, daily_active_users, daily_active_rooms, daily_messages and daily_sent_messages.
+3. DATABASE - database type - postgresql or sqlite
+4. POSTGRES_HOST - Postgres Host
+4. DB_USER - Matrix postgres database user
+4. DB_PASSWORD - Matrix postgres database password
+5. DB_NAME - Matrix postgres database name
+6. EMAIL_FROM - Email used to send notifications from Matrix
+7. RIOT_BASE_URL: Will be included in emails
+8. PUBLIC_BASE_URL: the same as SERVER_NAME
+9. REGISTRATION_ENABLED: "yes"/"no"
+
+
+
+## Usage
 
 ```
-docker run -d -p 8008:8008 -p 8448:8448 -p 3478:3478 -v /tmp/data:/data donbeave/matrix-synapse
+docker run -d -p 8008:8008 -p 8448:8448 -p 3478:3478  -v /tmp/data:/data eeacms/matrix-synapse
 ```
+
 Docker compose example
 ```
   matrix:
-    image: eeacms/synapse
+    image: eeacms/matrix-synapse
     restart: always
     command: start
     ports:
