@@ -6,6 +6,7 @@ RUN groupadd -r synapse && useradd -r -g synapse synapse
 
 # Git branch to build from
 ARG SYNAPSE_VERSION=v0.26.0
+ARG SYNAPSE_REST_AUTH=v0.1.1 
 
 # use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
 # packages
@@ -65,7 +66,7 @@ RUN set -ex \
     && mv res/templates /synapse_templates  \
     && cd / \
     && rm -rf /synapse \
-    && git clone https://github.com/maxidor/matrix-synapse-rest-auth.git \
+    && git clone  --branch $SYNAPSE_REST_AUTH --depth 1 https://github.com/maxidor/matrix-synapse-rest-auth.git \
     && cd matrix-synapse-rest-auth \
     && cp rest_auth_provider.py /usr/lib/python2.7/dist-packages/ \
     && cd .. \
