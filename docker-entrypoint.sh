@@ -12,6 +12,10 @@ generate_turn_key() {
 	echo "pkey=/data/${SERVER_NAME}.tls.key" >> "${filepath}"
 	echo "dh-file=/data/${SERVER_NAME}.tls.dh" >> "${filepath}"
 	echo "cipher-list=\"HIGH\"" >> "${filepath}"
+        #recommended quotas
+        echo "no-tcp-relay" >> "${filepath}"
+        echo "user-quota=12" >> "${filepath}"
+        echo "total-quota=1200" >> "${filepath}"
 }
 
 generate_synapse_file() {

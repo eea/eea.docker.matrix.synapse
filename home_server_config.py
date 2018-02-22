@@ -16,6 +16,7 @@ public_base_url =  os.getenv('PUBLIC_BASE_URL', '')
 identity_url = os.getenv('IDENTITY_URL', 'http://identity:8090')
 smtp_host = os.getenv('SMTP_HOST', 'postfix')
 smtp_port = os.getenv('SMTP_PORT', '25')
+turn_allow_guests =  os.getenv('TURN_GUESTS', False)
 
 
 
@@ -47,8 +48,9 @@ yaml_doc['web_client'] = False
 yaml_doc['web_client_location'] = '/webclient'
 yaml_doc['uploads_path'] = '/uploads'
 yaml_doc['media_store_path'] = '/data/media_store'
-
 yaml_doc['enable_registration'] = enable_registration
+yaml_doc['turn_allow_guests'] = turn_allow_guests
+
 
 if db_type == 'sqlite':
     yaml_doc['database'] = {'name': 'sqlite3', 'args': {'database': '/data/homeserver.db'}}
