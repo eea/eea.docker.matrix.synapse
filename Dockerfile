@@ -53,7 +53,7 @@ RUN set -ex \
         sqlite \
         zlib1g \
         zlib1g-dev \
-    &&  pip install --upgrade pip \
+    &&  pip install --upgrade pip==9.0.3 \
         python-ldap \
         pyopenssl \
         enum34 \
