@@ -2,21 +2,17 @@
 
 Docker image for https://github.com/matrix-org/synapse, including configuration changes used in EEA and adding HTTP JSON REST Authenticator module for synapse (https://github.com/kamax-io/matrix-synapse-rest-auth)
 
-
 ## Supported tags and respective Dockerfile links
 
   - [Tags](https://hub.docker.com/r/eeacms/matrix-synapse/tags/)
-
 
 ## Base docker image
 
  - [eeacms/matrix-synapse](https://hub.docker.com/r/eeacms/matrix-synapse/)
 
-
 ## Source code
 
-  - [github.com](http://github.com/eea/eea.docker.matrix.synapse)
-
+  - [eea/eea.docker.matrix.synapse](http://github.com/eea/eea.docker.matrix.synapse)
 
 ## Usage
 
@@ -50,7 +46,6 @@ Docker compose example
       REGISTRATION_ENABLED: 'no'
 ```
 
-
 ## Supported environment variables
 
 * `SERVER_NAME` - The public url of matrix, used in federation and under which every user is saved; Is used in Riot and Identity containers
@@ -64,7 +59,6 @@ Docker compose example
 * `RIOT_BASE_URL` Will be included in emails
 * `PUBLIC_BASE_URL` the same as SERVER_NAME
 * `REGISTRATION_ENABLED` "yes"/"no"
-
 
 ## Copyright and license
 
