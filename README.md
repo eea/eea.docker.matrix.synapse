@@ -2,25 +2,20 @@
 
 Docker image for https://github.com/matrix-org/synapse, including configuration changes used in EEA and adding HTTP JSON REST Authenticator module for synapse (https://github.com/kamax-io/matrix-synapse-rest-auth)
 
-## Supported tags and respective `Dockerfile` links
 
-- [`latest` (*Dockerfile*)](https://github.com/eea/eea.docker.matrix.synapse/blob/master/Dockerfile)
-- [`v0.26.0` (*Dockerfile*)](https://github.com/eea/eea.docker.matrix.synapse/blob/v0.26.0/Dockerfile)
+## Supported tags and respective Dockerfile links
 
-## Variables
+  - [Tags](https://hub.docker.com/r/eeacms/matrix-synapse/tags/)
 
-1. SERVER_NAME - The public url of matrix, used in federation and under which every user is saved; Is used in Riot and Identity containers
-2. REPORT_STATS - Send data to matrix.org: hostname, synapse version & uptime, total_users, total_nonbridged users, total_room_count, daily_active_users, daily_active_rooms, daily_messages and daily_sent_messages.
-3. DATABASE - database type - postgresql or sqlite
-4. POSTGRES_HOST - Postgres Host
-4. DB_USER - Matrix postgres database user
-4. DB_PASSWORD - Matrix postgres database password
-5. DB_NAME - Matrix postgres database name
-6. EMAIL_FROM - Email used to send notifications from Matrix
-7. RIOT_BASE_URL: Will be included in emails
-8. PUBLIC_BASE_URL: the same as SERVER_NAME
-9. REGISTRATION_ENABLED: "yes"/"no"
 
+## Base docker image
+
+ - [eeacms/matrix-synapse](https://hub.docker.com/r/eeacms/matrix-synapse/)
+
+
+## Source code
+
+  - [github.com](http://github.com/eea/eea.docker.matrix.synapse)
 
 
 ## Usage
@@ -55,3 +50,33 @@ Docker compose example
       REGISTRATION_ENABLED: 'no'
 ```
 
+
+## Supported environment variables
+
+* `SERVER_NAME` - The public url of matrix, used in federation and under which every user is saved; Is used in Riot and Identity containers
+* `REPORT_STATS` - Send data to matrix.org: hostname, synapse version & uptime, total_users, total_nonbridged users, total_room_count, daily_active_users, daily_active_rooms, daily_messages and daily_sent_messages.
+* `DATABASE` - database type - postgresql or sqlite
+* `POSTGRES_HOST` - Postgres Host
+* `DB_USER` - Matrix postgres database user
+* `DB_PASSWORD` - Matrix postgres database password
+* `DB_NAME` - Matrix postgres database name
+* `EMAIL_FROM` - Email used to send notifications from Matrix
+* `RIOT_BASE_URL` Will be included in emails
+* `PUBLIC_BASE_URL` the same as SERVER_NAME
+* `REGISTRATION_ENABLED` "yes"/"no"
+
+
+## Copyright and license
+
+The Initial Owner of the Original Code is European Environment Agency (EEA).
+All Rights Reserved.
+
+The Original Code is free software;
+you can redistribute it and/or modify it under the terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later
+version.
+
+## Funding
+
+[European Environment Agency (EU)](http://eea.europa.eu)
