@@ -5,7 +5,7 @@ LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 RUN groupadd -r synapse && useradd -r -g synapse synapse
 
 # Git branch to build from
-ARG SYNAPSE_VERSION=v0.31.2
+ARG SYNAPSE_VERSION=v0.33.0
 ARG SYNAPSE_REST_AUTH=v0.1.1
 
 # use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
