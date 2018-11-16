@@ -5,7 +5,7 @@ LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 RUN groupadd -r synapse && useradd -r -g synapse synapse
 
 # Git branch to build from
-ARG SYNAPSE_VERSION=v0.33.0
+ARG SYNAPSE_VERSION=v0.33.8
 ARG SYNAPSE_REST_AUTH=v0.1.1
 
 # use --build-arg REBUILD=$(date) to invalidate the cache and upgrade all
@@ -63,7 +63,7 @@ RUN set -ex \
     && git clone --branch $SYNAPSE_VERSION --depth 1 https://github.com/matrix-org/synapse.git \
     && cd /synapse \
     && pip install --upgrade . \
-    && mv res/templates /synapse_templates  \
+    && mv synapse/res/templates /synapse_templates  \
     && cd / \
     && rm -rf /synapse \
     && git clone  --branch $SYNAPSE_REST_AUTH --depth 1 https://github.com/maxidor/matrix-synapse-rest-auth.git \
