@@ -17,6 +17,8 @@ identity_url = os.getenv('IDENTITY_URL', 'http://identity:8090')
 smtp_host = os.getenv('SMTP_HOST', 'postfix')
 smtp_port = os.getenv('SMTP_PORT', '25')
 turn_allow_guests =  os.getenv('TURN_GUESTS', False)
+mxisd_token = os.getenv('MXISD_TOKEN', '')
+mxisd_as_token = os.getenv('MXISD_AS_TOKEN', 'testmxisd')
 
 
 
@@ -61,6 +63,15 @@ yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': smtp_host, 'smtp_port
 
 yaml_doc['password_providers'] = [{ 'module': 'rest_auth_provider.RestAuthProvider', 'config': { 'endpoint': identity_url} } ]
 yaml_doc['public_baseurl'] = public_base_url
+
+if '/data/appservice-mxisd.yaml' in yaml_doc['app_service_config_files']:
+    yaml_doc['app_service_config_files'].remove('/data/appservice-mxisd.yaml')
+
+if mxisd_token:
+    yaml_doc['app_service_config_files'].append('/data/appservice-mxisd.yaml')
+    mxisd_config = { 'id': 'appservice-mxisd', 'url': identity_url, 'as_token': mxisd_as_token, 'hs_token': mxisd_token, 'sender_localpart': "appservice-mxisd", 'namespaces': { 'users': [ { 'regex': '@*', 'exclusive': False }], 'aliases': [], 'rooms': [] } }
+    with open("/data/appservice-mxisd.yaml", "w") as f:
+        yaml.dump(mxisd_config, f, default_flow_style = False)
 
 
 with open("/data/homeserver.yaml", "w") as f:
