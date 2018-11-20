@@ -59,6 +59,9 @@ Docker compose example
 * `RIOT_BASE_URL` Will be included in emails
 * `PUBLIC_BASE_URL` the same as SERVER_NAME
 * `REGISTRATION_ENABLED` "yes"/"no"
+* `MXISD_TOKEN` secret token, enables appservice-mxisd app that links to the identity service url to enable the sending of invitations to users that are not logged in
+* `MXISD_AS_TOKEN`  secret token, used in appservice-mxisd 
+
 
 ## Copyright and license
 
