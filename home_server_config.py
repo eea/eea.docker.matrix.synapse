@@ -59,7 +59,7 @@ if db_type == 'sqlite':
 elif db_type == 'postgresql':
     yaml_doc['database'] = {'name': 'psycopg2', 'args': {'user': db_user, 'password': db_pasword, 'database': db_name, 'host': postgres_host, 'cp_min': 5, 'cp_max': 10}}
 
-yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': smtp_host, 'smtp_port': smtp_port, 'notif_from': email_from, 'app_name': 'Matrix', 'template_dir': '/synapse_templates', 'notif_template_html': 'notif_mail.html', 'notif_template_text': 'notif_mail.txt', 'notif_for_new_users': 'True', 'riot_base_url': riot_base_url}
+yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': smtp_host, 'smtp_port': smtp_port, 'notif_from': email_from, 'app_name': 'Matrix', 'template_dir': '/usr/local/lib/python2.7/dist-packages/synapse/res/templates', 'notif_template_html': 'notif_mail.html', 'notif_template_text': 'notif_mail.txt', 'notif_for_new_users': 'True', 'riot_base_url': riot_base_url}
 
 yaml_doc['password_providers'] = [{ 'module': 'rest_auth_provider.RestAuthProvider', 'config': { 'endpoint': identity_url} } ]
 yaml_doc['public_baseurl'] = public_base_url

@@ -2,11 +2,12 @@ FROM avhost/docker-matrix:v0.34.1.1
 LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 
+
 RUN apt-get update -y -q --fix-missing \
     && apt-get install -y --no-install-recommends wget \
     && wget -O /usr/lib/python2.7/dist-packages/rest_auth_provider.py https://raw.githubusercontent.com/kamax-matrix/matrix-synapse-rest-auth/master/rest_auth_provider.py \
     && apt-get clean \
-    && pip install bleach
+    && pip install bleach 
 
 
 
