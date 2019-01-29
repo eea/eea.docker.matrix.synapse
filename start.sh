@@ -170,6 +170,8 @@ case $OPTION in
 		export SERVER_NAME REPORT_STATS
 
 		generate_synapse_file /tmp/homeserver.synapse.yaml
+		/home_server_config.py /tmp/homeserver.synapse.yaml
+
 		diff -${DIFFPARAMS} /tmp/homeserver.synapse.yaml /data/homeserver.yaml
 		;;
 
