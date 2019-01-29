@@ -78,5 +78,5 @@ if mxisd_token:
         yaml.dump(mxisd_config, f, default_flow_style = False)
 
 
-with open("/data/homeserver.yaml", "w") as f:
+with open(filename, "w") as f:
     yaml.dump(yaml_doc, f, default_flow_style = False)
