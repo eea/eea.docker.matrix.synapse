@@ -7,7 +7,8 @@ RUN apt-get update -y -q --fix-missing \
     && apt-get install -y --no-install-recommends wget \
     && wget -O /usr/lib/python2.7/dist-packages/rest_auth_provider.py https://raw.githubusercontent.com/kamax-matrix/matrix-synapse-rest-auth/master/rest_auth_provider.py \
     && apt-get clean \
-    && pip install bleach 
+    && pip install bleach \
+    && cp -pr /usr/local/lib/python2.7/dist-packages/synapse/res/templates /synapse_templates
 
 
 
