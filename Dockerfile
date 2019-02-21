@@ -1,4 +1,4 @@
-FROM avhost/docker-matrix:v0.99.1.1
+FROM avhost/docker-matrix:v0.33.8
 LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
 
 
