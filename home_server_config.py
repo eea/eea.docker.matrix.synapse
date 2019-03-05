@@ -3,6 +3,8 @@
 import yaml
 import os
 import distutils.util
+import sys
+
 
 db_type = os.getenv('DATABASE', 'sqlite')
 postgres_host = os.getenv('POSTGRES_HOST', 'db')
@@ -37,8 +39,10 @@ if db_type not in ('sqlite', 'postgresql'):
     print "DATABASE env is wrong: %s" % (db_type)
     sys.exit(1)
 
-
-filename = "/data/homeserver.yaml"
+if len(sys.argv)>1:
+    filename = sys.argv[1]
+else:    
+    filename = "/data/homeserver.yaml"
 
 file = open(filename)
 yaml_doc = yaml.load(file)
@@ -74,5 +78,5 @@ if mxisd_token:
         yaml.dump(mxisd_config, f, default_flow_style = False)
 
 
-with open("/data/homeserver.yaml", "w") as f:
+with open(filename, "w") as f:
     yaml.dump(yaml_doc, f, default_flow_style = False)
