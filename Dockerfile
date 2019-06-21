@@ -20,4 +20,4 @@ COPY home_server_config.py start.sh config/supervisord.conf /
 EXPOSE 8008 8448 3478
 
 ENTRYPOINT ["/start.sh"]
-CMD ["autostart"]
+CMD ["start"]
