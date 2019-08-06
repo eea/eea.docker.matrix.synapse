@@ -11,7 +11,7 @@ RUN apt-get update -y -q --fix-missing \
     && wget -O /usr/local/lib/python3.7/dist-packages/synapse/app/rest_auth_provider.py  https://raw.githubusercontent.com/kamax-matrix/matrix-synapse-rest-auth/master/rest_auth_provider.py \
     && apt-get clean \ 
     && pip3 install bleach \
-    && cp -pr /usr/local/lib/python3.7/dist-packages/synapse/res/templates /synapse_templates
+    && cp -pr /usr/local/lib/python3.7/dist-packages/synapse/res/templates /synapse_templates \
     && chmod 777 /run \
     && chmod 777 /var/lib \
     && mkdir /var/lib/turn \
