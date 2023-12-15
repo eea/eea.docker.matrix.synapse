@@ -27,16 +27,16 @@ mxisd_as_token = os.getenv('MXISD_AS_TOKEN', 'testmxisd')
 
 enable_registration = bool(distutils.util.strtobool(os.getenv('REGISTRATION_ENABLED', 'no')))
 
-print 'DATABASE:', db_type
-print 'POSTGRES_HOST:', postgres_host
-print 'POSTGRES_PORT:', postgres_port
-print 'DB_NAME:', db_name
-print 'DB_USER:', db_user
-print 'DB_PASSWORD:', db_pasword
-print 'REGISTRATION_ENABLED:', enable_registration
+print('DATABASE:', db_type)
+print('POSTGRES_HOST:', postgres_host)
+print('POSTGRES_PORT:', postgres_port)
+print('DB_NAME:', db_name)
+print('DB_USER:', db_user)
+print('DB_PASSWORD:', db_pasword)
+print('REGISTRATION_ENABLED:', enable_registration)
 
 if db_type not in ('sqlite', 'postgresql'):
-    print "DATABASE env is wrong: %s" % (db_type)
+    print("DATABASE env is wrong: %s" % (db_type))
     sys.exit(1)
 
 if len(sys.argv)>1:
