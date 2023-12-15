@@ -21,7 +21,6 @@ configure_homeserver_yaml() {
 
 	awk -v TURNURIES="turn_uris: [\"turn:${TURN_SERVER_NAME}:3478?transport=udp\", \"turn:${TURN_SERVER_NAME}:3478?transport=tcp\"]" \
 	    -v TURNSHAREDSECRET="turn_shared_secret: \"${turnkey}\"" \
-	    -v 
 	    -v PIDFILE="pid_file: /data/homeserver.pid" \
 	    -v DATABASE="database: \"/data/homeserver.db\"" \
 	    -v LOGFILE="log_file: \"/data/homeserver.log\"" \
