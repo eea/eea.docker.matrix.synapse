@@ -7,24 +7,6 @@ if [ ! -z "${ROOTPATH}" ]; then
 	echo ":: variable anymore"
 fi
 
-generate_turn_key() {
-	local turnkey="${1}"
-	local filepath="${2}"
-
-	echo "lt-cred-mech" > "${filepath}"
-	echo "use-auth-secret" >> "${filepath}"
-	echo "static-auth-secret=${turnkey}" >> "${filepath}"
-	echo "realm=turn.${SERVER_NAME}" >> "${filepath}"
-	echo "cert=/data/${SERVER_NAME}.tls.crt" >> "${filepath}"
-	echo "pkey=/data/${SERVER_NAME}.tls.key" >> "${filepath}"
-	echo "dh-file=/data/${SERVER_NAME}.tls.dh" >> "${filepath}"
-	echo "cipher-list=\"HIGH\"" >> "${filepath}"
-        echo "no-tcp-relay" >> "${filepath}"
-        echo "user-quota=12" >> "${filepath}"
-        echo "total-quota=1200" >> "${filepath}"
-
-}
-
 generate_synapse_file() {
 	local filepath="${1}"
 
@@ -41,8 +23,9 @@ configure_homeserver_yaml() {
 
 	local ymltemp="$(mktemp)"
 
-	awk -v TURNURIES="turn_uris: [\"turn:${SERVER_NAME}:3478?transport=udp\", \"turn:${SERVER_NAME}:3478?transport=tcp\"]" \
+	awk -v TURNURIES="turn_uris: [\"turn:${TURN_SERVER_NAME}:3478?transport=udp\", \"turn:${TURN_SERVER_NAME}:3478?transport=tcp\"]" \
 	    -v TURNSHAREDSECRET="turn_shared_secret: \"${turnkey}\"" \
+	    -v 
 	    -v PIDFILE="pid_file: /data/homeserver.pid" \
 	    -v DATABASE="database: \"/data/homeserver.db\"" \
 	    -v LOGFILE="log_file: \"/data/homeserver.log\"" \
@@ -67,60 +50,16 @@ configure_log_config() {
 
 case $OPTION in
     	"start")
-		if [ -f /data/turnserver.conf ]; then
-			echo "-=> start turn"
-			if [ -f /conf/supervisord-turnserver.conf.deactivated ]; then
-				mv -f /conf/supervisord-turnserver.conf.deactivated /conf/supervisord-turnserver.conf
-			fi
-		else
-			if [ -f /conf/supervisord-turnserver.conf ]; then
-				mv -f /conf/supervisord-turnserver.conf /conf/supervisord-turnserver.conf.deactivated
-			fi
-		fi
-
-		(
-			if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
-				echo "The riot web client is now handled via silvio/matrix-riot-docker"
-			fi
-		)
-
 		echo "-=> start matrix"
-		if (( $EUID == 0 )); then
-		    groupadd -r -g $MATRIX_GID matrix \
-            && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
-            && chown $MATRIX_UID:$MATRIX_GID /data/* \
-            && chown -R $MATRIX_UID:$MATRIX_GID /data \
-            && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
-            && chmod a+rwx /run 
-             su matrix -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml" & su matrix -c "/usr/bin/turnserver -c /data/turnserver.conf"
-        else
-        	exec python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
-        fi
+        	exec /start.py 
 		;;
 
 	"autostart")
 		if [ -f /data/homeserver.yaml ]; then
-            if [ -f /data/turnserver.conf ]; then
-                echo "-=> start turn"
-            fi
-            (
-                if [ -f /data/vector.im.conf ] || [ -f /data/riot.im.conf ] ; then
-                    echo "The riot web client is now handled via silvio/matrix-riot-docker"
-                fi
-            )
-            echo "-=> start matrix"
-		if (( $EUID == 0 )); then
-		    groupadd -r -g $MATRIX_GID matrix \
-            && useradd -r -d /data -M -u $MATRIX_UID -g matrix matrix \
-            && chown $MATRIX_UID:$MATRIX_GID /data/* \
-            && chown -R $MATRIX_UID:$MATRIX_GID /data \
-            && chown -R $MATRIX_UID:$MATRIX_GID /uploads \
-            && chmod a+rwx /run 
-             su matrix -c "python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml" & su matrix -c "/usr/bin/turnserver -c /data/turnserver.conf"
-        else
-        	exec python3 -m synapse.app.homeserver --config-path /data/homeserver.yaml & /usr/bin/turnserver -c /data/turnserver.conf
-        fi
-        else
+            
+                   echo "-=> start matrix"
+                   exec /start.py 
+               else
             breakup="0"
             [[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
             [[ -z "${REPORT_STATS}" ]] && echo "STOP! environment variable REPORT_STATS must be set to 'no' or 'yes'" && breakup="1"
@@ -128,10 +67,6 @@ case $OPTION in
                 echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
 
             [[ "${breakup}" == "1" ]] && exit 1
-
-            echo "-=> generate turn config"
-            turnkey=$(pwgen -s 64 1)
-            generate_turn_key $turnkey /data/turnserver.conf
 
             echo "-=> generate synapse config"
             generate_synapse_file /data/homeserver.tmp
@@ -184,10 +119,6 @@ case $OPTION in
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
 
 		[[ "${breakup}" == "1" ]] && exit 1
-
-		echo "-=> generate turn config"
-		turnkey=$(pwgen -s 64 1)
-		generate_turn_key $turnkey /data/turnserver.conf
 
 		echo "-=> generate synapse config"
 		generate_synapse_file /data/homeserver.tmp

@@ -212,13 +212,13 @@ RUN apt-get update -y -q --fix-missing \
     && cp -pr /usr/local/lib/python3.9/site-packages/synapse/res/templates /synapse_templates \
     && chmod 777 /run \
     && chmod 777 /var/lib \
-    && mkdir /var/lib/turn \
-    && chmod 777 /var/lib/turn
 
 # add configs
-COPY config/supervisord-matrix.conf config/supervisord-turnserver.conf  /conf/
 COPY config/index.html config/logo.png /webclient/
-COPY home_server_config.py start.sh config/supervisord.conf /
+COPY home_server_config.py start.sh /
 
-EXPOSE 8008 8448 3478
+
+ENTRYPOINT ["/start.sh"]
+CMD ["autostart"]
+
 
