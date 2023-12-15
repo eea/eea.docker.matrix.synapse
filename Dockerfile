@@ -205,7 +205,7 @@ USER root
 RUN apt-get update -y -q --fix-missing \
     && apt-get install -y --no-install-recommends git wget \
     && apt-get clean  \
-    && pip3 install bleach \
+    && pip3 install bleach pyyaml==5.4.1 \
     && pip3 install git+https://github.com/ma1uta/matrix-synapse-rest-password-provider \
     && cp -pr /usr/local/lib/python3.9/site-packages/synapse/res/templates /synapse_templates \
     && chmod 777 /run \

@@ -21,23 +21,22 @@ smtp_port = os.getenv('SMTP_PORT', '25')
 turn_allow_guests =  os.getenv('TURN_GUESTS', False)
 mxisd_token = os.getenv('MXISD_TOKEN', '')
 mxisd_as_token = os.getenv('MXISD_AS_TOKEN', 'testmxisd')
-turn_server_name=os.getenv('TURN_SERVER_NAME', 'localhost')
-turn_shared_secret=os.getenv('turnkey','')
+
 
 
 
 enable_registration = bool(distutils.util.strtobool(os.getenv('REGISTRATION_ENABLED', 'no')))
 
-print('DATABASE:', db_type)
-print('POSTGRES_HOST:', postgres_host)
-print('POSTGRES_PORT:', postgres_port)
-print('DB_NAME:', db_name)
-print('DB_USER:', db_user)
-print('DB_PASSWORD:', db_pasword)
-print('REGISTRATION_ENABLED:', enable_registration)
+print 'DATABASE:', db_type
+print 'POSTGRES_HOST:', postgres_host
+print 'POSTGRES_PORT:', postgres_port
+print 'DB_NAME:', db_name
+print 'DB_USER:', db_user
+print 'DB_PASSWORD:', db_pasword
+print 'REGISTRATION_ENABLED:', enable_registration
 
 if db_type not in ('sqlite', 'postgresql'):
-    print("DATABASE env is wrong: %s" % (db_type))
+    print "DATABASE env is wrong: %s" % (db_type)
     sys.exit(1)
 
 if len(sys.argv)>1:
@@ -57,9 +56,6 @@ yaml_doc['uploads_path'] = '/uploads'
 yaml_doc['media_store_path'] = '/data/media_store'
 yaml_doc['enable_registration'] = enable_registration
 yaml_doc['turn_allow_guests'] = turn_allow_guests
-yaml_doc['turn_uris'] = ["turn": turn_server_name + ":3478?transport=udp", "turn": turn_server_name + ":3478?transport=tcp"]
-yaml_doc['turn_shared_secret'] = turn_shared_secret
-
 
 
 if db_type == 'sqlite':
@@ -72,10 +68,8 @@ yaml_doc['email'] = {'enable_notifs': 'True', 'smtp_host': smtp_host, 'smtp_port
 yaml_doc['password_providers'] = [{ 'module': 'rest_auth_provider.RestAuthProvider', 'config': { 'endpoint': identity_url} } ]
 yaml_doc['public_baseurl'] = public_base_url
 
-
-if 'app_service_config_files' in yaml_doc.keys():
-    if '/data/appservice-mxisd.yaml' in yaml_doc['app_service_config_files']:
-        yaml_doc['app_service_config_files'].remove('/data/appservice-mxisd.yaml')
+if '/data/appservice-mxisd.yaml' in yaml_doc['app_service_config_files']:
+    yaml_doc['app_service_config_files'].remove('/data/appservice-mxisd.yaml')
 
 if mxisd_token:
     yaml_doc['app_service_config_files'].append('/data/appservice-mxisd.yaml')
