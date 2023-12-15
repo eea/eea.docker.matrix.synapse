@@ -76,7 +76,7 @@ yaml_doc['public_baseurl'] = public_base_url
 if 'app_service_config_files' in yaml_doc.keys():
     if '/data/appservice-mxisd.yaml' in yaml_doc['app_service_config_files']:
         yaml_doc['app_service_config_files'].remove('/data/appservice-mxisd.yaml')
-else
+else:
     yaml_doc['app_service_config_files'] = []
 
 if mxisd_token:
