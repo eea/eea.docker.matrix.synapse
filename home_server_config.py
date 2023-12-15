@@ -50,9 +50,6 @@ yaml_doc = yaml.load(file)
 
 # default values
 yaml_doc['pid_file'] = '/data/homeserver.pid'
-yaml_doc['log_file'] = '/data/homeserver.log'
-yaml_doc['web_client'] = False
-yaml_doc['web_client_location'] = '/webclient'
 yaml_doc['uploads_path'] = '/uploads'
 yaml_doc['media_store_path'] = '/data/media_store'
 yaml_doc['enable_registration'] = enable_registration
