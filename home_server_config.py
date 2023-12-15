@@ -57,7 +57,7 @@ yaml_doc['uploads_path'] = '/uploads'
 yaml_doc['media_store_path'] = '/data/media_store'
 yaml_doc['enable_registration'] = enable_registration
 yaml_doc['turn_allow_guests'] = turn_allow_guests
-yaml_doc['turn_uris'] = ["turn": turn_server_name + ":3478?transport=udp", "turn": turn_server_name + ":3478?transport=tcp"]
+yaml_doc['turn_uris'] = ["turn:" + turn_server_name + ":3478?transport=udp", "turn:" + turn_server_name + ":3478?transport=tcp"]
 yaml_doc['turn_shared_secret'] = turn_shared_secret
 
 
@@ -76,6 +76,8 @@ yaml_doc['public_baseurl'] = public_base_url
 if 'app_service_config_files' in yaml_doc.keys():
     if '/data/appservice-mxisd.yaml' in yaml_doc['app_service_config_files']:
         yaml_doc['app_service_config_files'].remove('/data/appservice-mxisd.yaml')
+else
+    yaml_doc['app_service_config_files'] = []
 
 if mxisd_token:
     yaml_doc['app_service_config_files'].append('/data/appservice-mxisd.yaml')
