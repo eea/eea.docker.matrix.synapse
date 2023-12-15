@@ -208,12 +208,11 @@ RUN apt-get update -y -q --fix-missing \
     && pip3 install bleach \
     && pip3 install git+https://github.com/ma1uta/matrix-synapse-rest-password-provider \
     && cp -pr /usr/local/lib/python3.9/site-packages/synapse/res/templates /synapse_templates \
-    && mkdir -p /webclient \
     && chmod 777 /run \
-    && chmod 777 /var/lib \
+    && chmod 777 /var/lib 
 
 # add configs
-COPY config/index.html config/logo.png /webclient/
+COPY config/index.html config/logo.png /webclient
 COPY home_server_config.py start.sh /
 
 
