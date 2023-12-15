@@ -10,11 +10,7 @@ fi
 generate_synapse_file() {
 	local filepath="${1}"
 
-	python3 -m synapse.app.homeserver \
-	       --config-path "${filepath}" \
-	       --generate-config \
-	       --report-stats ${REPORT_STATS} \
-	       --server-name ${SERVER_NAME}
+	 SYNAPSE_SERVER_NAME="${SERVER_NAME}" SYNAPSE_REPORT_STATS="${REPORT_STATS}" /start.py generate
 }
 
 configure_homeserver_yaml() {
