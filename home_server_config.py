@@ -21,7 +21,8 @@ smtp_port = os.getenv('SMTP_PORT', '25')
 turn_allow_guests =  os.getenv('TURN_GUESTS', False)
 mxisd_token = os.getenv('MXISD_TOKEN', '')
 mxisd_as_token = os.getenv('MXISD_AS_TOKEN', 'testmxisd')
-
+turn_server_name=os.getenv('TURN_SERVER_NAME', 'localhost')
+turn_shared_secret=os.getenv('turnkey','')
 
 
 
@@ -56,6 +57,9 @@ yaml_doc['uploads_path'] = '/uploads'
 yaml_doc['media_store_path'] = '/data/media_store'
 yaml_doc['enable_registration'] = enable_registration
 yaml_doc['turn_allow_guests'] = turn_allow_guests
+yaml_doc['turn_uris'] = ["turn": turn_server_name + ":3478?transport=udp", "turn": turn_server_name + ":3478?transport=tcp"]
+yaml_doc['turn_shared_secret'] = turn_shared_secret
+
 
 
 if db_type == 'sqlite':
