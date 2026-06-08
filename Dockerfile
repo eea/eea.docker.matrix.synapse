@@ -27,7 +27,7 @@ ARG PYTHON_VERSION=3.9
 ###
 # We hardcode the use of Debian bookworm here because this could change upstream
 # and other Dockerfiles used for testing are expecting bookworm.
-FROM docker.io/library/python:3.9-slim-buster as requirements
+FROM docker.io/library/python:3.9-slim as requirements
 
 ARG SYNAPSE_VERSION=v1.98.0
 
@@ -92,7 +92,7 @@ RUN if [ -z "$TEST_ONLY_IGNORE_POETRY_LOCKFILE" ]; then \
 ###
 ### Stage 1: builder
 ###
-FROM docker.io/library/python:3.9-slim-buster as builder
+FROM docker.io/library/python:3.9-slim as builder
 
 # install the OS build deps
 RUN \
@@ -163,7 +163,7 @@ RUN --mount=type=cache,target=/synapse/target,sharing=locked \
 ### Stage 2: runtime
 ###
 
-FROM docker.io/library/python:3.9-slim-buster
+FROM docker.io/library/python:3.9-slim
 
 LABEL org.opencontainers.image.url='https://matrix.org/docs/projects/server/synapse'
 LABEL org.opencontainers.image.documentation='https://github.com/matrix-org/synapse/blob/master/docker/README.md'
